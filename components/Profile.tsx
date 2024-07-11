@@ -11,8 +11,8 @@ import { Button } from './ui/button';
 interface UserData {
   username: string;
   email: string;
-  first_name: string;
-  last_name: string;
+  password1: string;
+  password2: string;
 }
 
 const UserProfile: React.FC = () => {
@@ -20,8 +20,8 @@ const UserProfile: React.FC = () => {
   const [userData, setUserData] = useState<UserData>({
     username: '',
     email: '',
-    first_name: '',
-    last_name: '',
+    password1: '',
+    password2: '',
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -103,22 +103,22 @@ const UserProfile: React.FC = () => {
               />
           </div>
             <div className="pb-5">
-              <Label className="mb-4">First Name:</Label>
+              <Label className="mb-4">Password:</Label>
               <Input  
-                id="first_name"
-                name="first_name"
+                id="password1"
+                name="password1"
                 type="text"
-                value={userData.first_name}
+                value={userData.password1}
                 onChange={handleChange}
               />
           </div>
             <div className="mb-4">
-              <Label className="pb-4">Last Name:</Label>
+              <Label className="pb-4">Confirm Password:</Label>
               <Input  
-                 id="last_name"
-                 name="last_name"
+                 id="password2"
+                 name="password2"
                  type="text"
-                 value={userData.last_name}
+                 value={userData.password2}
                  onChange={handleChange}
               />
           </div>

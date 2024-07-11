@@ -196,7 +196,7 @@ const Vaccines: React.FC = () => {
   if (error) return <p className="text-center text-red-600">Error fetching data: {error}</p>;
 
   return (
-    <div id="campaign" className="max-w-[1200px] w-full mx-auto my-[80px] px-5">
+    <div id="vaccines" className="max-w-[1200px] w-full mx-auto my-[80px] px-5">
       
       <div className="flex items-center justify-between pb-4 border-b my-6">
         <h2 className="scroll-m-20 pb-2 text-3xl font-bold tracking-tight first:mt-0">
