@@ -11,8 +11,8 @@ import { Button } from './ui/button';
 interface UserData {
   username: string;
   email: string;
-  password1: string;
-  password2: string;
+  first_name: string;
+  last_name: string;
 }
 
 const UserProfile: React.FC = () => {
@@ -20,47 +20,33 @@ const UserProfile: React.FC = () => {
   const [userData, setUserData] = useState<UserData>({
     username: '',
     email: '',
-    password1: '',
-    password2: '',
+    first_name: '',
+    last_name: '',
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
-  const [authToken , setAuthToken] = useState<string>('')
+
   useEffect(() => {
-
-
-   
-  
-        if(window !== undefined){
-            setAuthToken(window.localStorage.getItem("authToken")??'')
-        }
-    
-
-    const fetchUserData = async () => {
-  
-      if (!authToken) {
-        setError('Authorization token not found');
-        setLoading(false);
-        return;
-      }
-
-      try {
-        const response = await axios.get('https://vaccination-management-c8s4.onrender.com/api/auth/user/', {
-          headers: {
-            Authorization: `Token ${authToken}`,
-          },
-        });
-        setUserData(response.data);
-      } catch (error) {
-        setError('Error fetching user data');
-      } finally {
-        setLoading(false);
-      }
-    };
+        const token = localStorage.getItem("authToken");
+        const fetchUserData = async () => {
+          try {
+            const response = await axios.get('https://vaccination-management-c8s4.onrender.com/api/auth/user/', {
+              headers: {
+                Authorization: `Token ${token}`,
+              },
+            });
+            setUserData(response.data);
+          } catch (error) {
+            setError('Error fetching user data');
+          } finally {
+            setLoading(false);
+          }
+        };
 
     fetchUserData();
   }, []);
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -70,27 +56,24 @@ const UserProfile: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!authToken) {
-      toast.error('Authorization token not found');
-      return;
-    }
+  const token = window.localStorage.getItem("authToken")
 
     try {
-      const response = await axios.patch('http://127.0.0.1:8000/api/auth/user/', userData, {
+      const response = await axios.put('https://vaccination-management-c8s4.onrender.com/api/auth/user/', userData, {
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Token ${authToken}`,
+          Authorization: `Token ${token}`,
         },
       });
       toast.success('User data updated successfully');
       router.push('/'); 
     } catch (error) {
-      toast.error('Error updating user data');
+      toast.error('A user with that username already exists.');
     }
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
+  if (loading) return <p className="text-center text-green-800">Loading...</p>;
+  if (error) return <p className="text-center text-red-600">Error fetching data: {error}</p>;
 
   return (
       <div className="max-w-[600px] w-full mx-auto mt-20 px-5">
@@ -120,22 +103,22 @@ const UserProfile: React.FC = () => {
               />
           </div>
             <div className="pb-5">
-              <Label className="mb-4">Password:</Label>
+              <Label className="mb-4">First Name:</Label>
               <Input  
                 id="first_name"
                 name="first_name"
                 type="text"
-                value={userData.password1}
+                value={userData.first_name}
                 onChange={handleChange}
               />
           </div>
             <div className="mb-4">
-              <Label className="pb-4">Confirm Password:</Label>
+              <Label className="pb-4">Last Name:</Label>
               <Input  
                  id="last_name"
                  name="last_name"
                  type="text"
-                 value={userData.password2}
+                 value={userData.last_name}
                  onChange={handleChange}
               />
           </div>

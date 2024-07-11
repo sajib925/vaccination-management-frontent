@@ -58,7 +58,7 @@ const LoginForm = () => {
     <div className="max-w-[600px] w-full mx-auto mt-20 px-5">
       <Card>
         <CardHeader>
-          <CardTitle>Register</CardTitle>
+          <CardTitle className="text-center">Register</CardTitle>
           <CardContent>
           <form onSubmit={handleSubmit}>
             <div className="pb-5">
@@ -86,6 +86,7 @@ const LoginForm = () => {
           </CardContent>
         </CardHeader>
         <CardFooter>
+        <p className='mr-2'>Account not created yet</p> 
           <Button asChild>
               <Link href="/signup">Sign Up</Link>
             </Button>

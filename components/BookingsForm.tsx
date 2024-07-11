@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 import axios from 'axios';
-import { Card, CardDescription, CardHeader, CardTitle } from './ui/card';
+import { Card, CardHeader, CardTitle } from './ui/card';
 import { Label } from '@radix-ui/react-label';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
@@ -151,12 +151,12 @@ const CreateBooking: React.FC = () => {
         toast.error('Please select valid campaign and vaccine');
       }
     } catch (error) {
-      toast.error('Error creating booking');
+      toast.error('you are not patient! so, you can not book');
     }
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
+  if (loading) return <p className="text-center text-green-800">Loading...</p>;
+  if (error) return <p className="text-center text-red-600">Error fetching data: {error}</p>;
 
   return (
     <div className='max-w-[1200px] w-full mx-auto my-[80px] px-5' id="bookings">
@@ -184,7 +184,7 @@ const CreateBooking: React.FC = () => {
                 </select>
               </div>
               <div className="pb-5">
-                <Label className="pb-4">Vaccine Name:</Label>
+                <Label className="mb-3">Vaccine Name:</Label>
                 <select
                   name="vaccine_name"
                   value={formData.vaccine_name}
@@ -201,7 +201,7 @@ const CreateBooking: React.FC = () => {
                 </select>
               </div>
               <div className="pb-5">
-                <Label className="pb-4">NID:</Label>
+                <Label className="mb-3">NID:</Label>
                 <Input
                   type="text"
                   name="nid"
@@ -212,7 +212,7 @@ const CreateBooking: React.FC = () => {
                 />
               </div>
               <div className="pb-5">
-                <Label className="pb-4">Age:</Label>
+                <Label className="mb-3">Age:</Label>
                 <Input
                   type="text"
                   name="age"
@@ -223,7 +223,7 @@ const CreateBooking: React.FC = () => {
                 />
               </div>
               <div className="pb-5">
-                <Label className="pb-4">First Dose Date:</Label>
+                <Label className="mb-3">First Dose Date:</Label>
                 <Input
                   type="date"
                   name="first_dose_date"
@@ -233,7 +233,7 @@ const CreateBooking: React.FC = () => {
                 />
               </div>
               <div className="pb-5">
-                <Label className="pb-4">Medical Info:</Label>
+                <Label className="mb-3">Medical Info:</Label>
                 <Textarea
                   name="medical_info"
                   value={formData.medical_info}
